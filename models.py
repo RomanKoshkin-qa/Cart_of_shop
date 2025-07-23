@@ -1,6 +1,3 @@
-from itertools import product, count
-
-
 class Product:
     """
     Класс продукта
@@ -71,9 +68,11 @@ class Cart:
         Если remove_count больше, чем количество продуктов в позиции, то удаляется вся позиция
         """
         if remove_count is None:
-            self.products[product]= 0
+            del self.products[product]
         elif remove_count>self.products[product]:
-            self.products[product] = 0
+            del self.products[product]
+        elif remove_count==self.products[product]:
+            del self.products[product]
         else:
             self.products[product]-=remove_count
 
@@ -93,10 +92,6 @@ class Cart:
         Учтите, что товаров может не хватать на складе.
         В этом случае нужно выбросить исключение ValueError
         """
-        for product, count in self.products.items():
-            if not product.check_quantity(count):
-                raise ValueError(f" {product.name} Нет в наличии в таком кол-ве")
-        for product, count in self.products.items():
-            product.buy(count)
+        for product, quantity in self.products.items():
+            product.buy(quantity)
         self.clear()
-

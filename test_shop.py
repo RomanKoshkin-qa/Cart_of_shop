@@ -3,7 +3,7 @@
 """
 import pytest
 
-from models import Product,Cart
+from models import Product, Cart
 
 
 @pytest.fixture
@@ -49,14 +49,19 @@ class TestCart:
         cart = Cart()
         cart.add_product(product, 4)
         cart.remove_product(product, 1)
+        assert cart.products[product] == 3
         cart2 = Cart()
         cart2.add_product(product, 4)
         cart2.remove_product(product, 6)
-        assert cart2.products[product] == 0
+        assert product not in cart2.products
         cart3 = Cart()
         cart3.add_product(product, 4)
         cart3.remove_product(product)
-        assert cart3.products[product] == 0
+        assert product not in cart3.products
+        cart4 = Cart()
+        cart4.add_product(product, 4)
+        cart4.remove_product(product,4)
+        assert product not in cart4.products
     def test_clear(self, product):
         cart = Cart()
         cart.add_product(product, 4)
